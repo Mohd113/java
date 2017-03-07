@@ -1,0 +1,89 @@
+package land;
+
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+
+public class Main {
+	
+	private static final String FILE = "C:\\Users\\Chiefan\\Documents\\land2.txt";
+	
+
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+		
+		
+		String fline; 
+		try (BufferedReader br = new BufferedReader(new FileReader("C:\\Users\\Chiefan\\Documents\\land1.txt"))) { 
+			fline = br.readLine();
+			String tmp = "";
+			for (int i = 1; i <= Integer.parseInt(fline); i++) { 
+				int cases = Integer.parseInt(br.readLine());
+				
+				for (int t = 1; t <= cases; t++) {
+					
+					tmp = tmp + "," + br.readLine();
+					
+					
+				}
+				System.out.println(i + ". " + check(tmp));	
+				try (BufferedWriter bw = new BufferedWriter(new FileWriter(FILE, true))) { 
+					bw.write(i + ". " + check(tmp));
+					bw.newLine();
+				}
+				catch (IOException e4) { 
+					e4.printStackTrace();
+				}
+				
+			}
+			
+		}
+		catch (IOException e) { 
+			e.printStackTrace();
+		}
+
+	}
+	
+	public static String check(String a) { 
+		
+		String[] aa = a.split(",");
+		int cm1 = 0;
+		int p = 0;
+		int ar = 0;
+		
+		for (int s = 1; s < aa.length; s++) {
+			
+			String[] cs = aa[s].split("\\s+");
+			
+			int t1 = Integer.parseInt(cs[1]);
+			int t2 = Integer.parseInt(cs[0]);
+			int cm2 = t1 / t2;
+			if (cm1 == 0) { 
+				cm1 = cm2;
+				p = t1;
+				ar = t2;
+				
+			}
+			else if (cm2 < cm1 && cm2 != cm1) { 
+				cm1 = cm2;
+				p = t1;
+				ar = t2;
+			}
+			else if (cm2 == cm1) { 
+				if (t1 < p) {
+					cm1 = cm2;
+					p = t1;
+					ar = t2;
+				}
+			}		
+			
+		}
+		return Integer.toString(ar) + " " + Integer.toString(p);
+		
+	}
+
+}
