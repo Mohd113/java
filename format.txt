@@ -47,7 +47,6 @@ public class Main {
 		catch (IOException e) { 
 		e.printStackTrace();
 		}
-
 	}
 	public static String format(String text) {
 		StringBuilder bld = new StringBuilder(text);
