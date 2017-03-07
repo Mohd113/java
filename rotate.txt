@@ -1,0 +1,52 @@
+package rotate;
+
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+
+public class Main {
+	
+	private static final String FILE = ("C:\\Users\\Chiefan\\Documents\\rotate2.txt");
+
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+		String fline;
+		try (BufferedReader br = new BufferedReader(new FileReader("C:\\Users\\Chiefan\\Documents\\rotate1.txt"))) {
+			fline = br.readLine();
+			for (int i = 1; i <= Integer.parseInt(fline); i++) {
+				String[] all = br.readLine().split("\\s+");
+				int num = Integer.parseInt(all[0]);
+				int rotate = Integer.parseInt(all[1]);
+				System.out.println(i + ". " + rotate(num, rotate));
+				try (BufferedWriter bw = new BufferedWriter(new FileWriter(FILE, true))) { 
+					bw.write(i + ". " + rotate(num, rotate));
+					bw.newLine();
+				}
+				catch (IOException e1) { 
+					e1.printStackTrace();
+				}
+				
+			}
+		}
+		catch (IOException e) { 
+			e.printStackTrace();
+		}
+
+	}
+	public static String rotate(int n, int r) { 
+		double rm = 0;
+		double rt = Math.pow(10, r);
+		rm = n / rt;
+		
+		String test = Double.toString(rm);
+		String s[] = test.split("\\.");
+		String before = s[0];
+		String after = s[1];
+		
+		
+		return after + before;
+	}
+
+}
