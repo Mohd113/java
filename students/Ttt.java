@@ -15,6 +15,8 @@ import org.eclipse.swt.widgets.Monitor;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.wb.swt.SWTResourceManager;
+import org.eclipse.swt.widgets.Combo;
+
 
 public class Ttt {
 
@@ -22,7 +24,7 @@ public class Ttt {
 	protected Text first;
 	protected Text last;
 	protected Text id;
-	protected Text major;
+	protected Combo combo;
 
 	/**
 	 * Launch the application.
@@ -52,6 +54,17 @@ public class Ttt {
 	    int y = bounds.y + (bounds.height - rect.height) / 2;
 	    
 	    shell.setLocation(x, y);
+	    
+	    combo = new Combo(shell, SWT.READ_ONLY);
+	    combo.add("MIS");
+	    combo.add("E-Commerce");
+	    combo.add("Sales & Marketing");
+	    combo.add("SAP");
+	    combo.add("WAP");
+	    combo.add("Network Design");
+	    combo.add("Network Security");
+	    combo.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+	    combo.setBounds(143, 112, 143, 23);
 		shell.open();
 		shell.layout();
 		while (!shell.isDisposed()) {
@@ -100,10 +113,6 @@ public class Ttt {
 		lblNewLabel.setBounds(52, 91, 55, 15);
 		lblNewLabel.setText("K-Tech ID");
 		
-		major = new Text(shell, SWT.BORDER);
-		major.setForeground(SWTResourceManager.getColor(SWT.COLOR_LIST_SELECTION));
-		major.setBounds(143, 112, 143, 21);
-		
 		Label lblMajor = new Label(shell, SWT.NONE);
 		lblMajor.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
 		lblMajor.setBounds(52, 118, 55, 15);
@@ -113,8 +122,8 @@ public class Ttt {
 		addButton.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
-				if (first.getText() != "" && last.getText() != "" && id.getText() != "" && major.getText() != "") {
-				String test = id.getText() + "," + first.getText() + "," + last.getText() + "," + major.getText();  
+				if (first.getText() != "" && last.getText() != "" && id.getText() != "" && combo.getText() != "") {
+				String test = id.getText() + "," + first.getText() + "," + last.getText() + "," + combo.getText();  
 				try (BufferedWriter bw = new BufferedWriter(new FileWriter("data.txt", true))) {
 					bw.write(test);
 					bw.newLine();
@@ -146,7 +155,8 @@ public class Ttt {
 				first.setText("");
 				last.setText("");
 				id.setText("");
-				major.setText("");
+				combo.deselectAll();
+				
 				
 				
 			}
@@ -155,5 +165,4 @@ public class Ttt {
 		resetButton.setText("Reset");
 
 	}
-
 }
