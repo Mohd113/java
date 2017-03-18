@@ -24,6 +24,7 @@ import org.eclipse.swt.widgets.TableItem;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.wb.swt.SWTResourceManager;
+import org.eclipse.swt.widgets.Combo;
 
 
 public class View {
@@ -35,7 +36,7 @@ public class View {
 	private Text first;
 	private Text last;
 	private Text id;
-	private Text major;
+	private Combo combo;
 
 	/**
 	 * Launch the application.
@@ -140,10 +141,6 @@ public class View {
 	    id.setBounds(74, 101, 118, 21);
 	    formToolkit.adapt(id, true, true);
 	    
-	    major = new Text(shell, SWT.BORDER);
-	    major.setBounds(74, 128, 118, 21);
-	    formToolkit.adapt(major, true, true);
-	    
 	    Label lblFirstName = new Label(shell, SWT.NONE);
 	    lblFirstName.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
 	    lblFirstName.setBounds(10, 53, 55, 15);
@@ -173,67 +170,116 @@ public class View {
 	    	@Override
 	    	public void widgetSelected(SelectionEvent e) {
 	    		ArrayList<String> search = new ArrayList<String>();
-	    		if (first.getText().isEmpty() && last.getText().isEmpty() && id.getText().isEmpty() && major.getText().isEmpty()) {
+	    		if (first.getText().isEmpty() && last.getText().isEmpty() && id.getText().isEmpty() && combo.getText().isEmpty()) {
 	    			MessageBox ee = new MessageBox(shell, SWT.ICON_WARNING | SWT.OK);
 	    			ee.setText("Empty fields");
 	    			ee.setMessage("Please fill atleast one search field.");
 	    			ee.open();
 	    		}
 	    		else {
-	    			if (!first.getText().isEmpty()) {
-	    				search.add(first.getText());
-	    			}
-	    			if (!last.getText().isEmpty()) {
-	    				search.add(last.getText());
-	    			}
-	    			if (!id.getText().isEmpty()) { 
-	    				search.add(id.getText());
-	    			}
-	    			if (!major.getText().isEmpty()) {
-	    				search.add(major.getText());
-	    			}
 	    			ArrayList<String> result = new ArrayList<String>();
-	    			try (BufferedReader br = new BufferedReader(new FileReader("data.txt"))) {
-	    				String all;
-	    			
-	    				while ((all = br.readLine()) != null) { 
-	    					for (String s : search) { 
-	    						if (all.toLowerCase().contains(s.toLowerCase())) { 
-	    							result.add(all);
+	    			if (!id.getText().isEmpty()) {
+	    				search.add(id.getText());
+	    				String sid = id.getText();
+	    				String temp;
+	    				try (BufferedReader br = new BufferedReader(new FileReader("data.txt"))) {
+	    					while ((temp = br.readLine()) != null) {
+	    						
+	    						String[] temp1 = temp.split("\\,");
+	    						if (sid.toLowerCase().equals(temp1[0].toLowerCase())) {
+	    							result.add(temp);
 	    						}
 	    					}
+	    					
 	    				}
+	    				catch (IOException e2) {
+	    					e2.printStackTrace();
+	    				}
+	    			}
+	    			else { 
+	    				search.add("0000");
+	    			}
+	    			if (!first.getText().isEmpty()) {
+	    				search.add(first.getText());
+	    				String sfirst = first.getText();
+	    				String temp;
+	    				try (BufferedReader br = new BufferedReader(new FileReader("data.txt"))) {
+	    					while ((temp = br.readLine()) != null) {
+	    						
+	    						String[] temp1 = temp.split("\\,");
+	    						if (sfirst.toLowerCase().equals(temp1[1].toLowerCase())) {
+	    							result.add(temp);
+	    						}
+	    					}
+	    					
+	    				}
+	    				catch (IOException e2) {
+	    					e2.printStackTrace();
+	    				}
+	    			}
+	    			else { 
+	    				search.add("0000");
+	    			}
+	    			if (!last.getText().isEmpty()) { 
+	    				search.add(last.getText());
+	    				String slast = last.getText();
+	    				String temp;
+	    				try (BufferedReader br = new BufferedReader(new FileReader("data.txt"))) {
+	    					while ((temp = br.readLine()) != null) {
+	    						
+	    						String[] temp1 = temp.split("\\,");
+	    						if (slast.toLowerCase().equals(temp1[2].toLowerCase())) {
+	    							result.add(temp);
+	    						}
+	    					}
+	    					
+	    				}
+	    				catch (IOException e2) {
+	    					e2.printStackTrace();
+	    				}
+	    			}
+	    			else { 
+	    				search.add("0000");
+	    			}
+	    			if (!combo.getText().isEmpty()) {
+	    				search.add(combo.getText());
+	    				String smajor = combo.getText();
+	    				String temp;
+	    				try (BufferedReader br = new BufferedReader(new FileReader("data.txt"))) {
+	    					while ((temp = br.readLine()) != null) {
+	    						
+	    						String[] temp1 = temp.split("\\,");
+	    						if (smajor.toLowerCase().equals(temp1[3].toLowerCase())) {
+	    							result.add(temp);
+	    						}
+	    					}
+	    					
+	    				}
+	    				catch (IOException e2) {
+	    					e2.printStackTrace();
+	    				}
+	    			}
+	    			else { 
+	    				search.add("0000");
+	    			}
 	    			
-	    			}
-	    			catch (IOException ee) { 
-	    				MessageBox er = new MessageBox(shell, SWT.OK | SWT.ICON_WARNING);
-	    				er.setText("Error!");
-	    				er.setMessage("Data file is not created yet!");
-	    				er.open();
-	    			}
 	    			HashSet<String> kk = new HashSet<String>();
 	    			kk.addAll(result);
 	    			ArrayList<String> remove = new ArrayList<String>();
 	    			result.clear();
 	    			result.addAll(kk);
-	    			for (String s : result) { 
-	    				for (String d : search) {
-	    					if (!s.toLowerCase().contains(d.toLowerCase())) { 
-	    						remove.add(s);
-	    					}
+	    			ArrayList<String> result1 = new ArrayList<String>();
+	    			for (String s : result) {
+	    				String[] tmp1 = s.split("\\,");
+	    				if ((tmp1[0].toLowerCase().equals(search.get(0).toLowerCase()) || search.get(0).equals("0000")) && (tmp1[1].toLowerCase().equals(search.get(1).toLowerCase()) || search.get(1).equals("0000")) && (tmp1[2].toLowerCase().equals(search.get(2).toLowerCase()) || search.get(2).equals("0000")) && (tmp1[3].toLowerCase().equals(search.get(3).toLowerCase()) || search.get(3).equals("0000"))) {
+	    					result1.add(s);
 	    				}
-	    			}
-	    			for (String k : remove) {
-	    				for (int i = 0; i < result.size(); i++) {
-	    					if (result.get(i).toLowerCase().equals(k.toLowerCase())) {
-	    						result.remove(i);
-	    					}
-	    				}
+	    				
 	    			}
 	    			table.removeAll();
 	    			String titles[] = { "No." , "ID" , "First Name" , "Last Name" , "Major" };
 	    			int no = 1;
-	    			for (String d : result) {
+	    			for (String d : result1) {
 	    				String[] test1 = d.split("\\,");
 	    				TableItem item = new TableItem(table, SWT.NONE);
 	    				item.setText(0, Integer.toString(no));
@@ -256,9 +302,22 @@ public class View {
 	    btnSearch.setText("Search");
 	    
 	    Label lblNewLabel_1 = new Label(shell, SWT.NONE);
-	    lblNewLabel_1.setBounds(33, 275, 190, 177);
+	    lblNewLabel_1.setBounds(33, 283, 190, 135);
 	    formToolkit.adapt(lblNewLabel_1, true, true);
 	    lblNewLabel_1.setText("This is where we view all students,\nsearch for particular students,\nremove students, and \nclear the table.");
+	    
+	    combo = new Combo(shell, SWT.READ_ONLY);
+	    combo.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+	    combo.add("MIS");
+	    combo.add("E-Commerce");
+	    combo.add("Sales & Marketing");
+	    combo.add("SAP");
+	    combo.add("WAP");
+	    combo.add("Network Design");
+	    combo.add("Network Security");
+	    combo.setBounds(74, 128, 118, 23);
+	    formToolkit.adapt(combo);
+	    formToolkit.paintBordersFor(combo);
 		shell.open();
 		shell.layout();
 		while (!shell.isDisposed()) {
@@ -302,6 +361,10 @@ public class View {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				table.removeAll();
+				id.setText("");
+				first.setText("");
+				last.setText("");
+				combo.deselectAll();
 			}
 		});
 		btnClear.setBounds(117, 215, 75, 25);
