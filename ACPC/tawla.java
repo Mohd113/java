@@ -19,6 +19,29 @@ public class tawla {
 			int s = sc1.nextInt();
 			String first = "";
 			String second = "";
+			if (f == s) { 
+				switch (f) {
+				case 1:
+					first = "Habb Yakk";
+					break;
+				case 2:
+					first = "Dobara";
+					break;
+				case 3:
+					first = "Dousa";
+					break;
+				case 4:
+					first = "Dorgy";
+					break;
+				case 5:
+					first = "Dabash";
+					break;
+				case 6:
+					first = "Dosh";
+					break;
+				}
+			}
+			else {
 			switch(f) {
 			case 1: 
 				first = "Yakk";
@@ -59,11 +82,15 @@ public class tawla {
 				second = "Sheesh";
 				break;
 			}
+			}
 			if (f > s) {
 				return first + " " + second;
 			}
-			else {
+			else if (s > f) {
 				return second + " " + first;
+			}
+			else { 
+				return first;
 			}
 		}
 	}
