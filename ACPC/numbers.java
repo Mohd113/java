@@ -1,5 +1,6 @@
 import java.util.*;
 import java.io.*;
+import java.math.BigInteger;
 
 public class numbers {
 
@@ -16,37 +17,45 @@ public class numbers {
 	}
 	public static String check(String data) {
 		try (Scanner sc1 = new Scanner(data)) {
-			int x = sc1.nextInt();
-			int y = 0;
-			int n = sc1.nextInt();
-			int b = sc1.nextInt();
-			int m = sc1.nextInt();
-			int d = 0;
-			for (int i = 0; i < m; i++) {
-				if (i == n) {
-					if (x > y) {
-						x += b;
+			BigInteger x = sc1.nextBigInteger();
+			BigInteger y = BigInteger.ZERO;
+			BigInteger n = sc1.nextBigInteger();
+			BigInteger b = sc1.nextBigInteger();
+			BigInteger m = sc1.nextBigInteger();
+			BigInteger d = BigInteger.ZERO;
+			if (m.equals(BigInteger.ZERO) && n.equals(BigInteger.ZERO)) {
+				x = x.add(b);
+			}
+			
+			for (BigInteger i = BigInteger.ZERO; i.compareTo(m) == -1; i = i.add(BigInteger.ONE)) {
+				if (i.equals(n)) {
+					if (x.compareTo(y) == 1) {
+						x = x.add(b);
 					}
 					else { 
-						y += b;
+						y = y.add(b);
 					}
 				}
 				else { 
-					if (x > y) {
-						y += x;
+					if (x.compareTo(y) == 1) {
+						y = y.add(x);
 					}
 					else { 
-						x += y;
+						x = x.add(y);
 					}
 				}
 			}
-			int temp = x > y ? x : y;
-			for (int i = 1; i < temp; i++) {
-				if (x % i == 0 && y % i == 0) {
-					d = i;
-				}
+			if (!y.equals(BigInteger.ZERO) && !x.equals(BigInteger.ZERO)) {
+				d = x.gcd(y);
 			}
-			return Integer.toString(d);
+			else if (y.equals(BigInteger.ZERO)) {
+				
+				d = x;
+			}
+			else if (x.equals(BigInteger.ZERO)) {
+				d = y;
+			}
+			return d.toString();
 		}
 	}
 
