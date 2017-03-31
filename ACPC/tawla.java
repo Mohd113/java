@@ -42,6 +42,7 @@ public class tawla {
 				}
 			}
 			else {
+				
 			switch(f) {
 			case 1: 
 				first = "Yakk";
@@ -83,14 +84,17 @@ public class tawla {
 				break;
 			}
 			}
-			if (f > s) {
-				return first + " " + second;
+			if ((f == 5 && s == 6) || (f == 6) && (s == 5)) {
+				first = "Sheesh Beesh";
+				s = f;
 			}
-			else if (s > f) {
-				return second + " " + first;
-			}
-			else { 
+			if (f == s) {
 				return first;
+			}
+			
+			else {
+				
+				return f > s ? first + " " + second : second + " " + first;
 			}
 		}
 	}
