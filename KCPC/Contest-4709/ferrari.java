@@ -8,5 +8,5 @@ class ferrari {
             while (cases-- > 0)
                 System.out.println(sc.nextLong() * 746);
         }
-    }}
-
+    }
+}
